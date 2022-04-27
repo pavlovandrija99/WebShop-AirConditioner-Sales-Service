@@ -7,7 +7,7 @@ const roleSchema = mongoose.Schema({
     }
 }, { timestamps: true });
 
-const roleModel = mongoose.model('roleModel', roleSchema);
+const roleModel = mongoose.model('roleModel', roleSchema, "Role");
 
 export default roleModel;
 

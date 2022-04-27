@@ -7,6 +7,6 @@ const serviceTypeSchema = mongoose.Schema({
     }
 }, { timestamps: true });
 
-const serviceTypeModel = mongoose.model('serviceTypeModel', serviceTypeSchema);
+const serviceTypeModel = mongoose.model('serviceTypeModel', serviceTypeSchema, "ServiceType");
 
 export default serviceTypeModel;

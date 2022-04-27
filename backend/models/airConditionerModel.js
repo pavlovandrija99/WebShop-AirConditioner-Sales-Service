@@ -53,6 +53,6 @@ const airConditionerSchema = mongoose.Schema({
 
 }, { timestamps: true });
 
-const airConditionerModel = mongoose.model('airConditionerModel', airConditionerSchema);
+const airConditionerModel = mongoose.model('airConditionerModel', airConditionerSchema, "Air Condition");
 
 export default airConditionerModel;

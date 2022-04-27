@@ -80,6 +80,6 @@ userSchema.methods.forAuthJSON = function() {
     }
 };
 
-const userModel = mongoose.model('userModel', userSchema);
+const userModel = mongoose.model('userModel', userSchema, "User");
 
 export default userModel;

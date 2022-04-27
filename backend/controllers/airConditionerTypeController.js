@@ -1,9 +1,9 @@
 import asyncHandler from 'express-async-handler';
-import { getAirConditionerTypesFromDB,
-         getAirConditionerTypeByIDFromDB,
-         addAirConditionerType,
-         updateAirConditionerTypeFromDB,
-         deleteAirConditionerTypeFromDB } from "../services/airConditionerTypeService.js";
+
+import { getAirConditionerTypesFromDB, getAirConditionerTypeByIDFromDB,
+         addAirConditionerType, updateAirConditionerTypeFromDB,
+         deleteAirConditionerTypeFromDB }
+         from "../services/airConditionerTypeService.js";
 
 import airConditionerTypeHelper from '../helpers/airConditionerTypeHelper.js'
 

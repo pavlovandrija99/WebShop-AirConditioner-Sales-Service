@@ -1,8 +1,6 @@
 import express from "express";
-import { getAirConditionerTypes,
-         getAirConditionerTypeByID,
-         createAirConditionerType,
-         updateAirConditionerType,
+import { getAirConditionerTypes, getAirConditionerTypeByID,
+         createAirConditionerType, updateAirConditionerType,
          deleteAirConditionerType }
          from '../controllers/airConditionerTypeController.js'
 

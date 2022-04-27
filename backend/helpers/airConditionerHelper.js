@@ -1,6 +1,5 @@
 import airConditionerModel from "../models/airConditionerModel.js";
 import mongoose from "mongoose";
-import { request } from "express";
 
 export default class airConditionerHelper {
 

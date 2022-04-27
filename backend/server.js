@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDatabase from './config/database.js'
 import airConditionerTypeRoutes from './routes/airConditionerTypeRoutes.js'
 import airConditionerRoutes from './routes/airConditionerRoutes.js'
+import roleRoutes from './routes/roleRoutes.js'
 import { notFound ,errorHandler } from './middleware/errorMiddleware.js'
 
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(express.json())
 
 app.use('/api/airConditionerTypes', airConditionerTypeRoutes);
 app.use('/api/airConditioners', airConditionerRoutes);
+app.use('/api/roles', roleRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

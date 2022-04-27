@@ -3,8 +3,7 @@ import airConditionerHelper from '../helpers/airConditionerHelper.js';
 
 import { getAirConditionersFromDB, getAirConditionerByIDFromDB,
          addAirConditioner, updateAirConditionerFromDB,
-         deleteAirConditionerTypeFromDB }
-         from '../services/airConditionerService.js';
+         deleteAirConditionerTypeFromDB } from '../services/airConditionerService.js';
 
 // Fetches all air conditioners from DB.
 const getAirConditioners = asyncHandler(async(req, res) => {
@@ -14,7 +13,7 @@ const getAirConditioners = asyncHandler(async(req, res) => {
         res.status(200).json(airConditioners);
     } else {
         res.status(404);
-        throw new Error('Air conditiones not found !');
+        throw new Error('Air conditioners not found !');
     }
 });
 
@@ -26,7 +25,7 @@ const getAirConditionerByID = asyncHandler(async(req, res) => {
         res.status(200).json(airConditioner);
     } else {
         res.status(404);
-        throw new Error('Air conditioner type not found !');
+        throw new Error('Air conditioner not found !');
     }
 });
 
@@ -50,7 +49,7 @@ const updateAirConditioner = asyncHandler(async(req, res) =>{
 
     if(!airConditionerToUpdate) {
         res.status(400);
-        throw new Error('Air conditioner type not found!');
+        throw new Error('Air conditioner not found!');
     }
 
     let updatedAirConditionerWithHelper = airConditionerHelper.updateAirConditionerHelper(airConditionerToUpdate, req.body);
@@ -59,7 +58,7 @@ const updateAirConditioner = asyncHandler(async(req, res) =>{
 
     if(!updatedAirConditioner) {
         res.status(500);
-        throw new Error('Air conditioner type failed to update!');
+        throw new Error('Air conditioner failed to update!');
     }
 
     res.status(200).json(updatedAirConditioner);
@@ -78,7 +77,7 @@ const deleteAirConditioner = asyncHandler(async(req, res) => {
 
     if(!deletedAirConditioner) {
         res.status(500);
-        throw new Error('Air conditioner type deletion failed!');
+        throw new Error('Air conditioner deletion failed!');
     }
 
     res.status(204).json({message: 'Air conditioner deleted successfully!'});
@@ -88,23 +87,4 @@ export { getAirConditioners,  getAirConditionerByID, createAirConditioner,
          updateAirConditioner, deleteAirConditioner };
 
 /*
-// Deletes single instance of air conditioner type from DB, by ID.
-const deleteAirConditionerType = asyncHandler(async(req, res) => {
-
-    let airConditionerTypeToDelete = await getAirConditionerTypeByIDFromDB(req.params.id);
-
-    if(!airConditionerTypeToDelete) {
-        res.status(400);
-        throw new Error('Air conditioner type not found!');
-    }
-
-    let deletedAirConditionerType = await deleteAirConditionerTypeFromDB(airConditionerTypeToDelete);
-
-    if(!deletedAirConditionerType) {
-        res.status(500);
-        throw new Error('Air conditioner type deletion failed!');
-    }
-
-    res.status(204).json({message: 'Air conditioner type deleted successfully!'});
-});
 */

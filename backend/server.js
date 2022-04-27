@@ -14,6 +14,7 @@ const app = express();
 app.use(express.json())
 
 app.use('/api/airConditionerTypes', airConditionerTypeRoutes);
+app.use('/api/airConditioners', airConditionerRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

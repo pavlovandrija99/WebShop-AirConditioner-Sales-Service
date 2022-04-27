@@ -17,14 +17,14 @@ const addAirConditionerType = async(airConditionerType) => {
 
 const updateAirConditionerTypeFromDB = async(airConditionerTypeUpdate) => {
     const updatedAirConditionerType = await airCondidtionerTypeModel.
-                                      findOneAndUpdate({_id: airConditionerTypeUpdate}, {
+                                      findOneAndUpdate({_id: airConditionerTypeUpdate._id}, {
                                             airConditionerType: airConditionerTypeUpdate.airConditionerType
                                       }, { new: true });
     return updatedAirConditionerType;
 }
 
 const deleteAirConditionerTypeFromDB = async(airConditionerTypeToDelete) => {
-    const deletedAiConditionerType = await airCondidtionerTypeModel.deleteOne({_id: airConditionerTypeToDelete});
+    const deletedAiConditionerType = await airCondidtionerTypeModel.deleteOne({_id: airConditionerTypeToDelete._id});
     return deletedAiConditionerType;
 }
 

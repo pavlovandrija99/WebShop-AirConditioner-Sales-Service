@@ -4,7 +4,7 @@ import { getRolesFromDB, getRoleByIDFromDB,
          addRole, updateRoleFromDB, deleteRoleFromDB }
          from '../services/roleService.js';
 
-import roleHelper from '../helpers/roleHelper.js'
+import RoleHelper from '../helpers/roleHelper.js'
 
 // Fetches all roles from DB.
 const getRoles = asyncHandler(async(req, res) => {
@@ -32,7 +32,7 @@ const getRoleByID = asyncHandler(async(req, res) => {
 
 // Creates a new role instance in DB.
 const createRole = asyncHandler(async(req, res) =>{
-    let createdRoleHelper = roleHelper.createRoleObjectHelper(req.body);
+    let createdRoleHelper = RoleHelper.createRoleObjectHelper(req.body);
 
     let createdRole = await addRole(createdRoleHelper);
 
@@ -53,7 +53,7 @@ const updateRole = asyncHandler(async(req, res) => {
         throw new Error('Role not found!');
     }
 
-    let updatedRoleWithHelper = roleHelper.updateRoleHelper(roleToUpdate, req.body);
+    let updatedRoleWithHelper = RoleHelper.updateRoleHelper(roleToUpdate, req.body);
 
     let updatedRole = await updateRoleFromDB(updatedRoleWithHelper);
 

@@ -5,7 +5,7 @@ import { getAirConditionerTypesFromDB, getAirConditionerTypeByIDFromDB,
          deleteAirConditionerTypeFromDB }
          from "../services/airConditionerTypeService.js";
 
-import airConditionerTypeHelper from '../helpers/airConditionerTypeHelper.js'
+import AirConditionerTypeHelper from '../helpers/airConditionerTypeHelper.js'
 
 // Fetches all air conditioner types from DB.
 const getAirConditionerTypes = asyncHandler(async (req, res) => {
@@ -34,7 +34,7 @@ const getAirConditionerTypeByID = asyncHandler(async(req, res) => {
 // Creates a new air conditioner type instance in DB.
 const createAirConditionerType = asyncHandler(async(req, res) => {
 
-    let createdAirConditionerTypeHelper = airConditionerTypeHelper.createAirConditionerTypeObjectHelper(req.body.airConditionerType);
+    let createdAirConditionerTypeHelper = AirConditionerTypeHelper.createAirConditionerTypeObjectHelper(req.body.airConditionerType);
 
     let createdAirConditionerType = await addAirConditionerType(createdAirConditionerTypeHelper);
 
@@ -56,7 +56,7 @@ const updateAirConditionerType = asyncHandler(async(req, res) => {
         throw new Error('Air conditioner type not found!');
     }
 
-    let updatedAirConditionerTypeWithHelper = airConditionerTypeHelper.updateAirConditionerTypeHelper(airConditionerTypeToUpdate, req.body);
+    let updatedAirConditionerTypeWithHelper = AirConditionerTypeHelper.updateAirConditionerTypeHelper(airConditionerTypeToUpdate, req.body);
 
     let updatedAirConditionerType = await updateAirConditionerTypeFromDB(updatedAirConditionerTypeWithHelper);
 

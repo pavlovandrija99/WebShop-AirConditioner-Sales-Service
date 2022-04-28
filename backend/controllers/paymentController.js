@@ -4,7 +4,7 @@ import { getPaymentsFromDB, getPaymentByIDFromDB, addPayment,
          updatePaymentFromDB, deletePaymentByIDFromDB }
         from '../services/paymentService.js';
 
-import paymentHelper from '../helpers/paymentHelper.js';
+import PaymentHelper from '../helpers/paymentHelper.js';
 
 // Fetches all payments from DB.
 const getPayments = asyncHandler(async(req, res) =>{
@@ -32,7 +32,7 @@ const getPaymentByID = asyncHandler(async(req, res) => {
 
 // Creates a new payment instance in DB.
 const createPayment = asyncHandler(async(req, res) => {
-    let createdPaymentHelper = paymentHelper.createPaymentObjectHelper(req.body);
+    let createdPaymentHelper = PaymentHelper.createPaymentObjectHelper(req.body);
 
     let createdPayment = await addPayment(createdPaymentHelper);
 
@@ -53,7 +53,7 @@ const updatePayment = asyncHandler(async(req, res) => {
         throw new Error('Payment not found!');
     }
 
-    let updatedPaymentWithHelper = paymentHelper.updatePaymentHelper(paymentToUpdate, req.body);
+    let updatedPaymentWithHelper = PaymentHelper.updatePaymentHelper(paymentToUpdate, req.body);
 
     let updatedPayment = await updatePaymentFromDB(updatedPaymentWithHelper);
 

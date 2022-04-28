@@ -1,7 +1,7 @@
 import airConditionerModel from "../models/airConditionerModel.js";
 import mongoose from "mongoose";
 
-export default class airConditionerHelper {
+export default class AirConditionerHelper {
 
     static createAirConditionerObjectHelper (requestBody) {
         return new airConditionerModel({

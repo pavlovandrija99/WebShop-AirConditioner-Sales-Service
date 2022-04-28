@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler';
-import airConditionerHelper from '../helpers/airConditionerHelper.js';
+import AirConditionerHelper from '../helpers/airConditionerHelper.js';
 
 import { getAirConditionersFromDB, getAirConditionerByIDFromDB,
          addAirConditioner, updateAirConditionerFromDB,
@@ -31,7 +31,7 @@ const getAirConditionerByID = asyncHandler(async(req, res) => {
 
 // Creates a new air conditioner instance in DB.
 const createAirConditioner = asyncHandler(async(req, res) => {
-    let createdAirConditionerHelper = airConditionerHelper.createAirConditionerObjectHelper(req.body);
+    let createdAirConditionerHelper = AirConditionerHelper.createAirConditionerObjectHelper(req.body);
 
     let createdAirConditioner = await addAirConditioner(createdAirConditionerHelper);
 
@@ -52,7 +52,7 @@ const updateAirConditioner = asyncHandler(async(req, res) =>{
         throw new Error('Air conditioner not found!');
     }
 
-    let updatedAirConditionerWithHelper = airConditionerHelper.updateAirConditionerHelper(airConditionerToUpdate, req.body);
+    let updatedAirConditionerWithHelper = AirConditionerHelper.updateAirConditionerHelper(airConditionerToUpdate, req.body);
 
     let updatedAirConditioner = await updateAirConditionerFromDB(updatedAirConditionerWithHelper);
 

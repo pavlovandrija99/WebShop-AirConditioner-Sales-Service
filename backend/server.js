@@ -5,6 +5,7 @@ import airConditionerTypeRoutes from './routes/airConditionerTypeRoutes.js'
 import airConditionerRoutes from './routes/airConditionerRoutes.js'
 import roleRoutes from './routes/roleRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 import { notFound ,errorHandler } from './middleware/errorMiddleware.js'
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use('/api/airConditionerTypes', airConditionerTypeRoutes);
 app.use('/api/airConditioners', airConditionerRoutes);
 app.use('/api/roles', roleRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/users', userRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

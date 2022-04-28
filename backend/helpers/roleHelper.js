@@ -1,6 +1,6 @@
 import roleModel from "../models/roleModel.js";
 
-export default class roleHelper {
+export default class RoleHelper {
 
     static createRoleObjectHelper(requestBody) {
         return new roleModel({

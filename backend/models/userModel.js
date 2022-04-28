@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import dotenv from 'dotenv'
+import jwt from 'jsonwebtoken'
 
 dotenv.config();
 
-var crypto = require('crypto');
-var jwt = require('jsonwebtoken');
+var crypto = await import ('crypto');
+
 var secretString = process.env.SECRET_STRING;
 
 const userSchema = mongoose.Schema({
@@ -42,6 +43,10 @@ const userSchema = mongoose.Schema({
         lowercase: true,
         match: [/^[a-zA-Z0-9]+$/, 'is invalid']
     },
+    password: {
+        type: String,
+        required: true
+    },
     salt: {
         type: String
     },
@@ -50,9 +55,12 @@ const userSchema = mongoose.Schema({
     }
 }, { timestamps: true });
 
-userSchema.methods.setPassword = function(password) {
-    this.salt = crypto.randomBytes(16).toString('hex');
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+userSchema.methods.setPassword = function(password, newPassword) {
+
+    if(newPassword === 'true') {
+        this.salt = crypto.randomBytes(16).toString('hex');
+        this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+    }
 };
 
 userSchema.methods.validatePassword = function(password) {

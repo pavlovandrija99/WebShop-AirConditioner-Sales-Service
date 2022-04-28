@@ -1,6 +1,6 @@
 import airConditionerTypeModel from "../models/airConditionerTypeModel.js"
 
-export default class airConditionerTypeHelper {
+export default class AirConditionerTypeHelper {
 
     static createAirConditionerTypeObjectHelper(airConditionerTypeName) {
         return new airConditionerTypeModel({

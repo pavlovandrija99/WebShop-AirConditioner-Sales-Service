@@ -6,7 +6,7 @@ export default class roleHelper {
         return new roleModel({
             roleName: requestBody.roleName
         });
-    }
+    };
 
     static updateRoleHelper(roleToUpdate, requestBody) {
         return new roleModel({
@@ -14,4 +14,4 @@ export default class roleHelper {
             roleName: requestBody.roleName
         });
     };
-};
+}

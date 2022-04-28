@@ -13,5 +13,5 @@ export default class airConditionerTypeHelper {
             _id: airConditionerTypeObj._id,
             airConditionerType: requestBody.airConditionerType
         });
-    }
+    };
 }

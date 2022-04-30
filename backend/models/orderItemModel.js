@@ -11,8 +11,7 @@ const orderItemSchema = mongoose.Schema({
         required: true
     },
     itemPrice: {
-        type: String,
-        required: true
+        type: String
     }
 }, { timestamps: true });
 

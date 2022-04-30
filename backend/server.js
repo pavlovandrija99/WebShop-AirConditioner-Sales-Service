@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoutes.js'
 import serviceTypeRoutes from './routes/serviceTypeRoutes.js'
 import serviceRoutes from './routes/serviceRoutes.js'
 import orderItemRoutes from './routes/orderItemRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 import { notFound ,errorHandler } from './middleware/errorMiddleware.js'
 
 dotenv.config();
@@ -27,6 +28,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/serviceTypes', serviceTypeRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/orderItems', orderItemRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

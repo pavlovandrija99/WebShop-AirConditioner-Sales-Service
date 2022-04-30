@@ -8,6 +8,7 @@ const orderSchema = mongoose.Schema({
     },
     orderItems: [
         {
+            _id: false,
             orderItemID: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,
@@ -22,11 +23,9 @@ const orderSchema = mongoose.Schema({
     },
     orderDateAndTime: {
         type: Date,
-        required: true
     },
     orderPrice: {
         type: Number,
-        required: true
     },
     orderAddress: {
         type: String,

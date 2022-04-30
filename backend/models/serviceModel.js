@@ -11,15 +11,14 @@ const serviceSchema = mongoose.Schema({
         required: true,
         ref: 'airConditionerModel'
     },
-    users: [
-        {
+    users: [{
+            _id: false,
             userID: {
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,
                 ref: 'userModel'
             }
-        }
-    ]
+    }]
 }, { timestamps: true });
 
 const serviceModel = mongoose.model('serviceModel', serviceSchema, "Service");

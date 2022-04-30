@@ -7,6 +7,7 @@ import roleRoutes from './routes/roleRoutes.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import serviceTypeRoutes from './routes/serviceTypeRoutes.js'
+import serviceRoutes from './routes/serviceRoutes.js'
 import { notFound ,errorHandler } from './middleware/errorMiddleware.js'
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use('/api/roles', roleRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/serviceTypes', serviceTypeRoutes);
+app.use('/api/services', serviceRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

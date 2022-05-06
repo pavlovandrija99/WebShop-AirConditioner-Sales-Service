@@ -32,7 +32,7 @@ const getOrderItemByID = asyncHandler(async(req, res) => {
 
 // Creates a new order item instance in DB.
 const createOrderItem = asyncHandler(async(req, res) => {
-    let createOrderItemWithHelper = OrderItemHelper.createOrderItemObjectHelper(req.body);
+    let createOrderItemWithHelper = await OrderItemHelper.createOrderItemObjectHelper(req.body);
 
     let createdOrderItem = await addOrderItem(createOrderItemWithHelper);
 

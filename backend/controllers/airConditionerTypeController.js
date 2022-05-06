@@ -1,8 +1,8 @@
 import asyncHandler from 'express-async-handler';
 
 import { getAirConditionerTypesFromDB, getAirConditionerTypeByIDFromDB,
-         addAirConditionerType, updateAirConditionerTypeFromDB,
-         deleteAirConditionerTypeFromDB }
+         getAirConditionerTypesByTypeFromDB, addAirConditionerType,
+         updateAirConditionerTypeFromDB, deleteAirConditionerTypeFromDB }
          from "../services/airConditionerTypeService.js";
 
 import AirConditionerTypeHelper from '../helpers/airConditionerTypeHelper.js'
@@ -28,6 +28,18 @@ const getAirConditionerTypeByID = asyncHandler(async(req, res) => {
     } else {
         res.status(404);
         throw new Error('Air conditioner type not found !');
+    }
+});
+
+// Fetches all air conditioner types from DB, by given air conditioner type.
+const getAirConditionerTypesByType = asyncHandler(async (req, res) => {
+    let airConditionerTypes = await getAirConditionerTypesByTypeFromDB(req.params.type);
+
+    if(airConditionerTypes && !(Object.keys(airConditionerTypes).length === 0)) {
+        res.status(200).json(airConditionerTypes);
+    } else {
+        res.status(404);
+        throw new Error(`Air conditioners with type ${req.params.type} are not found !`);
     }
 });
 
@@ -89,6 +101,6 @@ const deleteAirConditionerType = asyncHandler(async(req, res) => {
 });
 
 export { getAirConditionerTypes, getAirConditionerTypeByID,
-        createAirConditionerType, updateAirConditionerType,
-        deleteAirConditionerType };
+         getAirConditionerTypesByType, createAirConditionerType,
+         updateAirConditionerType, deleteAirConditionerType };
 

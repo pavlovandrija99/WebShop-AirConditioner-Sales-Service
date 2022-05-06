@@ -1,8 +1,8 @@
 import asyncHandler from 'express-async-handler';
 
-import { getPaymentsFromDB, getPaymentByIDFromDB, addPayment,
-         updatePaymentFromDB, deletePaymentByIDFromDB }
-        from '../services/paymentService.js';
+import { getPaymentsFromDB, getPaymentByIDFromDB, getPaymentsByCreditCardNumberFromDB,
+         getPaymentsByDateTimeFromDB,addPayment, updatePaymentFromDB,
+         deletePaymentByIDFromDB } from '../services/paymentService.js';
 
 import PaymentHelper from '../helpers/paymentHelper.js';
 
@@ -27,6 +27,30 @@ const getPaymentByID = asyncHandler(async(req, res) => {
     } else {
         res.status(404);
         throw new Error('Payment not found!');
+    }
+});
+
+// Fetches all payments from DB, by given credit card number.
+const getPaymentsByCreditCardNumber = asyncHandler(async(req, res) => {
+    let payments = await getPaymentsByCreditCardNumberFromDB(req.params.creditCardNumber);
+
+    if(payments && !(Object.keys(payments).length === 0)) {
+        res.status(200).json(payments);
+    } else {
+        res.status(404);
+        throw new Error(`Payments with credit card number ${req.params.creditCardNumber} are not found !`);
+    }
+});
+
+// Fetches all payments from DB, by given payment date-time.
+const getPaymentsByDateTime = asyncHandler(async(req, res) => {
+    let payments = await getPaymentsByDateTimeFromDB(req.params.paymentDateTime);
+
+    if(payments && !(Object.keys(payments).length === 0)) {
+        res.status(200).json(payments);
+    } else {
+        res.status(404);
+        throw new Error(`Payments with date-time ${req.params.paymentDateTime} are not found !`);
     }
 });
 
@@ -84,5 +108,5 @@ const deletePayment = asyncHandler(async(req, res) => {
     res.status(204).json({message: 'Payment deleted successfully!'});
 });
 
-export { getPayments, getPaymentByID, createPayment, updatePayment,
-         deletePayment };
+export { getPayments, getPaymentByID, getPaymentsByCreditCardNumber,
+         getPaymentsByDateTime, createPayment, updatePayment, deletePayment };

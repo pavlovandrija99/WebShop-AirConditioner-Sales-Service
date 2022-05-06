@@ -25,7 +25,7 @@ const orderSchema = mongoose.Schema({
         type: Date,
     },
     orderPrice: {
-        type: Number,
+        type: String
     },
     orderAddress: {
         type: String,

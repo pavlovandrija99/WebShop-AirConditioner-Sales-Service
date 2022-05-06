@@ -10,6 +10,23 @@ const getRoleByIDFromDB = async(id) => {
     return role;
 };
 
+const getRolesByRoleFromDB = async(role) => {
+    const roles = await getRolesFromDB();
+
+    const filteredRoles = [];
+
+    for (const roleIndex in roles) {
+
+        if(roles[roleIndex].roleName.toLowerCase()
+                                    .includes(role.toLowerCase())) {
+
+            filteredRoles.push(roles[roleIndex]);
+        }
+    }
+
+    return filteredRoles;
+}
+
 const addRole = async(role) => {
     const addedRole = await role.save();
     return addedRole;
@@ -28,5 +45,12 @@ const deleteRoleFromDB = async(roleToDelete) => {
     return deletedRole;
 };
 
-export { getRolesFromDB, getRoleByIDFromDB, addRole,
-         updateRoleFromDB, deleteRoleFromDB };
+const findUserRoleIDWithGivenRole = async(role) => {
+    let roleFromDB = await roleModel.findOne({roleName: role});
+    let roleID = roleFromDB._id.valueOf();
+
+    return roleID;
+};
+
+export { getRolesFromDB, getRoleByIDFromDB, addRole, getRolesByRoleFromDB,
+         updateRoleFromDB, deleteRoleFromDB, findUserRoleIDWithGivenRole };

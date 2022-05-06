@@ -2,8 +2,9 @@ import asyncHandler from 'express-async-handler';
 import AirConditionerHelper from '../helpers/airConditionerHelper.js';
 
 import { getAirConditionersFromDB, getAirConditionerByIDFromDB,
-         addAirConditioner, updateAirConditionerFromDB,
-         deleteAirConditionerTypeFromDB } from '../services/airConditionerService.js';
+         getAirConditionersByModelFromDB, addAirConditioner,
+         updateAirConditionerFromDB, deleteAirConditionerTypeFromDB }
+         from '../services/airConditionerService.js';
 
 // Fetches all air conditioners from DB.
 const getAirConditioners = asyncHandler(async(req, res) => {
@@ -26,6 +27,18 @@ const getAirConditionerByID = asyncHandler(async(req, res) => {
     } else {
         res.status(404);
         throw new Error('Air conditioner not found !');
+    }
+});
+
+// Fetches all air conditioners from DB, by given air conditioner model.
+const getAirConditionersByModel = asyncHandler(async(req, res) => {
+    let airConditioners = await getAirConditionersByModelFromDB(req.params.model);
+
+    if(airConditioners && !(Object.keys(airConditioners).length === 0)) {
+        res.status(200).json(airConditioners);
+    } else {
+        res.status(404);
+        throw new Error(`Air conditioners with model ${req.params.model} are not found !`);
     }
 });
 
@@ -83,8 +96,8 @@ const deleteAirConditioner = asyncHandler(async(req, res) => {
     res.status(204).json({message: 'Air conditioner deleted successfully!'});
 });
 
-export { getAirConditioners,  getAirConditionerByID, createAirConditioner,
-         updateAirConditioner, deleteAirConditioner };
+export { getAirConditioners,  getAirConditionerByID, getAirConditionersByModel,
+         createAirConditioner, updateAirConditioner, deleteAirConditioner };
 
 /*
 */

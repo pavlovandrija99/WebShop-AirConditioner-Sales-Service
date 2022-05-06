@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 
-import { getRolesFromDB, getRoleByIDFromDB,
+import { getRolesFromDB, getRoleByIDFromDB, getRolesByRoleFromDB,
          addRole, updateRoleFromDB, deleteRoleFromDB }
          from '../services/roleService.js';
 
@@ -27,6 +27,18 @@ const getRoleByID = asyncHandler(async(req, res) => {
     } else {
         res.status(404);
         throw new Error('Role not found!');
+    }
+});
+
+// Fetches all roles from DB, by given role.
+const getRolesByRole = asyncHandler(async(req, res) => {
+    let roles = await getRolesByRoleFromDB(req.params.role);
+
+    if(roles && !(Object.keys(roles).length === 0)) {
+        res.status(200).json(roles);
+    } else {
+        res.status(404);
+        throw new Error(`Roles with type ${req.params.role} are not found !`);
     }
 });
 
@@ -84,7 +96,7 @@ const deleteRole = asyncHandler(async(req, res) => {
     res.status(204).json({message: 'Role deleted successfully!'});
 });
 
-export { getRoles, getRoleByID, createRole, updateRole, deleteRole };
+export { getRoles, getRoleByID, getRolesByRole ,createRole, updateRole, deleteRole };
 
 /*
 */

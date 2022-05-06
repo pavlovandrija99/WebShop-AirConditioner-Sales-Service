@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler';
 
-import { getServiceTypesFromDB, getServiceTypeByIDFromDB, addServiceType,
-         updateServiceTypeFromDB, deleteServiceTypeFromDB }
+import { getServiceTypesFromDB, getServiceTypeByIDFromDB, getServiceTypesByTypeFromDB,
+         addServiceType, updateServiceTypeFromDB, deleteServiceTypeFromDB }
         from '../services/serviceTypeService.js';
 
 import ServiceTypeHelper from '../helpers/serviceTypeHelper.js';
@@ -27,6 +27,18 @@ const getServiceTypeByID = asyncHandler(async(req, res) => {
     } else {
         res.status(404);
         throw new Error('Service type not found!');
+    }
+});
+
+// Fetches all service types from DB, by service type.
+const getServiceTypesByServiceType = asyncHandler(async(req, res) => {
+    let serviceTypes = await getServiceTypesByTypeFromDB(req.params.serviceType);
+
+    if(serviceTypes && !(Object.keys(serviceTypes).length === 0)) {
+        res.status(200).json(serviceTypes);
+    } else {
+        res.status(404);
+        throw new Error(`Service types with type ${req.params.serviceType} are not found !`);
     }
 });
 
@@ -86,5 +98,5 @@ const deleteServiceType = asyncHandler(async(req, res) => {
     res.status(204).json({message: 'Service type deleted successfully!'});
 });
 
-export { getServiceTypes, getServiceTypeByID, createServiceType, updateServiceType,
-         deleteServiceType };
+export { getServiceTypes, getServiceTypeByID, getServiceTypesByServiceType,
+         createServiceType, updateServiceType, deleteServiceType };

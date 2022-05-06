@@ -10,6 +10,23 @@ const getAirConditionerTypeByIDFromDB = async(id) => {
     return airConditionerType;
 }
 
+const getAirConditionerTypesByTypeFromDB = async(airConditionerType) => {
+    const airConditionerTypes = await getAirConditionerTypesFromDB();
+
+    const filteredAirConditionerTypes = [];
+
+    for (const airConditionerTypeIndex in airConditionerTypes) {
+
+        if(airConditionerTypes[airConditionerTypeIndex].airConditionerType.toLowerCase()
+                                    .includes(airConditionerType.toLowerCase())) {
+
+            filteredAirConditionerTypes.push(airConditionerTypes[airConditionerTypeIndex]);
+        }
+    }
+
+    return filteredAirConditionerTypes;
+}
+
 const addAirConditionerType = async(airConditionerType) => {
     const addedAirConditionerType = await airConditionerType.save();
     return addedAirConditionerType;
@@ -29,5 +46,5 @@ const deleteAirConditionerTypeFromDB = async(airConditionerTypeToDelete) => {
 }
 
 export { getAirConditionerTypesFromDB, getAirConditionerTypeByIDFromDB,
-         addAirConditionerType, updateAirConditionerTypeFromDB,
-         deleteAirConditionerTypeFromDB };
+         getAirConditionerTypesByTypeFromDB, addAirConditionerType,
+         updateAirConditionerTypeFromDB, deleteAirConditionerTypeFromDB };

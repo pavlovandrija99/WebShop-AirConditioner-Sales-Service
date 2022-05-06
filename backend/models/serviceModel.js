@@ -8,7 +8,6 @@ const serviceSchema = mongoose.Schema({
     },
     airConditioner: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: 'airConditionerModel'
     },
     users: [{

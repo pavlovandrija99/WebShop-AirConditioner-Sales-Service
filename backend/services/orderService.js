@@ -5,7 +5,7 @@ const getOrdersFromDB = async() => {
     return orders;
 }
 
-const getOrderItemByIDFromDB = async(id) => {
+const getOrderByIDFromDB = async(id) => {
     let order = await orderModel.findById(id);
     return order;
 }
@@ -33,5 +33,5 @@ const deletOrderFromDB = async(orderToDelete) => {
     return deletedOrder;
 }
 
-export { getOrdersFromDB, getOrderItemByIDFromDB, addOrder, updateOrderFromDB,
+export { getOrdersFromDB, getOrderByIDFromDB, addOrder, updateOrderFromDB,
          deletOrderFromDB };

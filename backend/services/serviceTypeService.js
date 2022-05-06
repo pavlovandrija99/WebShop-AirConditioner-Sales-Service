@@ -10,6 +10,23 @@ const getServiceTypeByIDFromDB = async(id) => {
     return serviceType;
 };
 
+const getServiceTypesByTypeFromDB = async(serviceType) => {
+    const serviceTypes = await getServiceTypesFromDB();
+
+    const filteredServiceTypes = [];
+
+    for (const serviceTypeIndex in serviceTypes) {
+
+        if(serviceTypes[serviceTypeIndex].serviceTypeName.toLowerCase()
+                                    .includes(serviceType.toLowerCase())) {
+
+            filteredServiceTypes.push(serviceTypes[serviceTypeIndex]);
+        }
+    }
+
+    return filteredServiceTypes;
+}
+
 const addServiceType = async(serviceTypeToAdd) => {
     let addedServiceType = await serviceTypeToAdd.save();
     return addedServiceType;
@@ -30,5 +47,5 @@ const deleteServiceTypeFromDB = async(serviceTypeToDelete) => {
     return deletedServiceType;
 }
 
-export { getServiceTypesFromDB, getServiceTypeByIDFromDB, addServiceType,
-         updateServiceTypeFromDB, deleteServiceTypeFromDB };
+export { getServiceTypesFromDB, getServiceTypeByIDFromDB, getServiceTypesByTypeFromDB,
+         addServiceType, updateServiceTypeFromDB, deleteServiceTypeFromDB };

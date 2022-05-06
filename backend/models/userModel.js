@@ -39,13 +39,11 @@ const userSchema = mongoose.Schema({
     },
     userUsername: {
         type: String,
-        unique: true,
         lowercase: true,
         match: [/^[a-zA-Z0-9]+$/, 'is invalid']
     },
     password: {
-        type: String,
-        required: true
+        type: String
     },
     salt: {
         type: String

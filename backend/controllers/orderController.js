@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 
-import { getOrdersFromDB, getOrderItemByIDFromDB, addOrder, updateOrderFromDB,
+import { getOrdersFromDB, getOrderByIDFromDB, addOrder, updateOrderFromDB,
          deletOrderFromDB }
         from '../services/orderService.js'
 
@@ -20,7 +20,7 @@ const getOrders = asyncHandler(async(req, res) => {
 
 // Fetches single order by ID from DB.
 const getOrderByID = asyncHandler(async(req, res) => {
-    let order = await getOrderItemByIDFromDB(req.params.id);
+    let order = await getOrderByIDFromDB(req.params.id);
 
     if(order) {
         res.status(200).json(order);
@@ -32,7 +32,7 @@ const getOrderByID = asyncHandler(async(req, res) => {
 
 // Creates a new order instance in DB.
 const createOrder = asyncHandler(async(req, res) => {
-    let createdOrderWithHelper = OrderHelper.createOrderObjectHelper(req.body);
+    let createdOrderWithHelper = await OrderHelper.createOrderObjectHelper(req.body);
 
     let createdOrder = await addOrder(createdOrderWithHelper);
 
@@ -47,7 +47,7 @@ const createOrder = asyncHandler(async(req, res) => {
 
 // Updates single instance of order by ID.
 const updateOrder = asyncHandler(async(req, res) => {
-    let orderToUpdate = await getOrderItemByIDFromDB(req.params.id);
+    let orderToUpdate = await getOrderByIDFromDB(req.params.id);
 
     if(!orderToUpdate) {
         res.status(400);
@@ -68,7 +68,7 @@ const updateOrder = asyncHandler(async(req, res) => {
 
 // Deletes single instance of order from DB, by ID.
 const deleteOrder = asyncHandler(async(req, res) => {
-    let orderToDelete = await getOrderItemByIDFromDB(req.params.id);
+    let orderToDelete = await getOrderByIDFromDB(req.params.id);
 
     if(!orderToDelete) {
         res.status(400);

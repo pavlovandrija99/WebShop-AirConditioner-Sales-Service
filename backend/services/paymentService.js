@@ -10,6 +10,40 @@ const getPaymentByIDFromDB = async(id) => {
     return payment;
 };
 
+const getPaymentsByCreditCardNumberFromDB = async(creditCardNumber) => {
+    const payments = await getPaymentsFromDB();
+
+    const filteredPayments = [];
+
+    for (const paymentIndex in payments) {
+
+        if(payments[paymentIndex].creditCardNumber.toLowerCase()
+                                    .includes(creditCardNumber.toLowerCase())) {
+
+            filteredPayments.push(payments[paymentIndex]);
+        }
+    }
+
+    return filteredPayments;
+};
+
+const getPaymentsByDateTimeFromDB = async(paymentDateTime) => {
+    const payments = await getPaymentsFromDB();
+
+    const filteredPayments = [];
+
+    for (const paymentIndex in payments) {
+        console.log(payments[paymentIndex].paymentDateAndTime.toString());
+        if(payments[paymentIndex].paymentDateAndTime.toString().toLowerCase()
+                                    .includes(paymentDateTime.toLowerCase())) {
+
+            filteredPayments.push(payments[paymentIndex]);
+        }
+    }
+
+    return filteredPayments;
+}
+
 const addPayment = async(paymentToAdd) => {
     const addedPayment = await paymentToAdd.save();
     return addedPayment;
@@ -32,5 +66,6 @@ const deletePaymentByIDFromDB = async(paymentToDelete) => {
     return deletedPayment;
 };
 
-export { getPaymentsFromDB, getPaymentByIDFromDB, addPayment, updatePaymentFromDB,
+export { getPaymentsFromDB, getPaymentByIDFromDB, getPaymentsByCreditCardNumberFromDB,
+         getPaymentsByDateTimeFromDB, addPayment, updatePaymentFromDB,
          deletePaymentByIDFromDB };

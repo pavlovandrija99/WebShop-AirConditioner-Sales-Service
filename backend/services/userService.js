@@ -1,5 +1,7 @@
 import userModel from '../models/userModel.js'
 
+import { findUserRoleIDWithGivenRole } from './roleService.js'
+
 const getUsersFromDB = async() => {
     const users = await userModel.find({});
     return users;
@@ -8,6 +10,54 @@ const getUsersFromDB = async() => {
 const getUserByIDFromDB = async(id) => {
     const user = await userModel.findById(id);
     return user;
+};
+
+const getUsersByFirstNameFromDB = async(userFirstName) => {
+    const users = await getUsersFromDB();
+
+    const filteredUsers = [];
+
+    for (const userIndex in users) {
+
+        if(users[userIndex].userFirstName.toLowerCase()
+                                    .includes(userFirstName.toLowerCase())) {
+
+            filteredUsers.push(users[userIndex]);
+        }
+    }
+
+    return filteredUsers;
+}
+
+const getUsersByLastNameFromDB = async(userLastName) => {
+    const users = await getUsersFromDB();
+
+    const filteredUsers = [];
+
+    for (const userIndex in users) {
+
+        if(users[userIndex].userLastName.toLowerCase()
+                                    .includes(userLastName.toLowerCase())) {
+
+            filteredUsers.push(users[userIndex]);
+        }
+    }
+
+    return filteredUsers;
+}
+
+const getUsersByRoleFromDB = async(userRole) => {
+    const users = await getUsersFromDB();
+    const roleID = await findUserRoleIDWithGivenRole(userRole);
+    const filteredUsers = [];
+
+    for (const userIndex in users) {
+        if(users[userIndex].role.valueOf() === roleID) {
+            filteredUsers.push(users[userIndex]);
+        }
+    }
+
+    return filteredUsers;
 };
 
 const addUser = async(userToCreate) => {
@@ -36,5 +86,6 @@ const deleteUserFromDB = async(userToDelete) => {
     return deletedUser;
 };
 
-export { getUsersFromDB, getUserByIDFromDB, addUser,updateUserFromDB,
+export { getUsersFromDB, getUserByIDFromDB, getUsersByFirstNameFromDB,
+         getUsersByLastNameFromDB, getUsersByRoleFromDB, addUser, updateUserFromDB,
          deleteUserFromDB };

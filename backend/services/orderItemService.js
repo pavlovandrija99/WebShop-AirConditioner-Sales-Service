@@ -12,7 +12,7 @@ const getOrderItemByIDFromDB = async(id) => {
 
 const addOrderItem = async(orderItemToAdd) => {
     let addedOrderItem = await orderItemToAdd.save();
-    return addedOrderItem
+    return addedOrderItem;
 }
 
 const updateOrderItemFromDB = async(orderItemToUpdate) => {

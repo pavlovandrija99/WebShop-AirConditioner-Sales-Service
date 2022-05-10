@@ -6,21 +6,16 @@ dotenv.config();
 
 var crypto = await import ('crypto');
 
-var secretString = process.env.SECRET_STRING;
-
 const userSchema = mongoose.Schema({
     role: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
         ref: 'roleModel'
     },
     userFirstName: {
         type: String,
-        required: true
     },
     userLastName: {
         type: String,
-        required: true
     },
     userEmail: {
         type: String,
@@ -31,11 +26,9 @@ const userSchema = mongoose.Schema({
     },
     userAddress: {
         type: String,
-        required: true
     },
     userContactNumber: {
         type: String,
-        required: true
     },
     userUsername: {
         type: String,
@@ -62,23 +55,24 @@ userSchema.methods.setPassword = function(password, newPassword) {
 };
 
 userSchema.methods.validatePassword = function(password) {
+
     var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
     return this.hash === hash;
 };
 
 userSchema.methods.generateJWT = function() {
-    var today = new Date();
-    var tokenExpirationDate = new Date(today);
-    tokenExpirationDate.setDate(today.getDate() + 60);
 
     return jwt.sign({
         id: this._id,
-        userName: this.userUsername,
-        exp: parseInt(exp.getTime() / 1000)
-    }, secretString);
+        userName: this.userUsername
+        //exp: parseInt(exp.getTime() / 1000)
+    }, process.env.JWT_SECRET_STRING, {
+        expiresIn: '30d'
+    });
 };
 
 userSchema.methods.forAuthJSON = function() {
+
     return {
         userName: this.userUsername,
         userEmail: this.userEmail,

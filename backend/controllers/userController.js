@@ -128,5 +128,18 @@ const deleteUser = asyncHandler(async(req, res) => {
     res.status(204).json({message: 'User deleted successfully!'});
 });
 
+
+const loginUser = asyncHandler(async(req, res) => {
+
+    let authJSON = await UserHelper.authenticateAndAuthorizeUser(req.body);
+
+    if(authJSON) {
+        res.json(authJSON);
+    } else {
+        res.status(401);
+        throw new Error('Invalid email or password!');
+    }
+});
+
 export { getUsers, getUserByID, getUsersByFirstName, getUsersByLastName,
-         getUsersByRole, createUser, updateUser, deleteUser };
+         getUsersByRole, createUser, updateUser, deleteUser, loginUser };

@@ -40,4 +40,13 @@ export default class UserHelper {
         updatedUser.setPassword(requestBody.password, newPassword);
         return updatedUser;
     };
+
+    static async authenticateAndAuthorizeUser(requestBody) {
+
+        let user = await userModel.findOne({ userEmail: requestBody.userEmail });
+
+        if(user && (user.validatePassword(requestBody.password))) {
+            return user.forAuthJSON();
+        }
+    }
 }

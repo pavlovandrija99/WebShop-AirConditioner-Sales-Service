@@ -11,11 +11,15 @@ export default class OrderItemHelper {
         let service = await getServiceByIDFromDB(mongoose.Types.ObjectId(requestBody.service));
         let airConditioner = await getAirConditionerByIDFromDB(service.airConditioner);
 
-        return new orderItemModel({
-            service: mongoose.Types.ObjectId(requestBody.service),
-            itemQuantity: requestBody.itemQuantity,
-            itemPrice: airConditioner.airConditionerPrice
-        });
+        if(requestBody.itemQuantity <= airConditioner.stock) {
+            return new orderItemModel({
+                service: mongoose.Types.ObjectId(requestBody.service),
+                itemQuantity: requestBody.itemQuantity,
+                itemPrice: airConditioner.airConditionerPrice
+            });
+        } else {
+            throw new Error('Out of stock!');
+        }
     }
 
     static updateOrderItemHelper(orderItemToUpdate, requestBody) {

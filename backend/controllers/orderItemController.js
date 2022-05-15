@@ -84,5 +84,6 @@ const deleteOrderItem = asyncHandler(async(req, res) => {
     res.status(204).json({message: 'Order item deleted successfully!'});
 });
 
+
 export { getOrderItems, getOrderItemByID, createOrderItem, updateOrderItem,
          deleteOrderItem };

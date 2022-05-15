@@ -12,18 +12,17 @@ export default class UserHelper {
             userEmail: requestBody.userEmail,
             userAddress: requestBody.userAddress,
             userContactNumber: requestBody.userContactNumber,
-            userUsername: requestBody.userUsername,
-            password: requestBody.password
+            userUsername: requestBody.userUsername
         });
 
         var newPassword = 'true';
-        createdUser.setPassword(createdUser.password, newPassword);
+        createdUser.setPassword(requestBody.password, newPassword);
         return createdUser;
     };
 
     static updateUserHelper(userToUpdate, requestBody) {
 
-        var newPassword = (userToUpdate.password === requestBody.password) ? "false" : "true";
+        var newPassword = userToUpdate.validatePassword(requestBody.password) ? "false": "true"
 
         var updatedUser = new userModel({
             _id: userToUpdate._id,
@@ -34,14 +33,13 @@ export default class UserHelper {
             userAddress: requestBody.userAddress,
             userContactNumber: requestBody.userContactNumber,
             userUsername: requestBody.userUsername,
-            password: requestBody.password
         });
 
         updatedUser.setPassword(requestBody.password, newPassword);
         return updatedUser;
     };
 
-    static async authenticateAndAuthorizeUser(requestBody) {
+    static async authenticateUser(requestBody) {
 
         let user = await userModel.findOne({ userEmail: requestBody.userEmail });
 

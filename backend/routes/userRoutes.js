@@ -8,14 +8,14 @@ import { protectRoute } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route('/').get(getUsers);
-router.route('/:id').get(getUserByID);
-router.route('/userFirstName/:firstName').get(getUsersByFirstName);
-router.route('/userLastName/:lastName').get(getUsersByLastName);
-router.route('/userRole/:userRole').get(getUsersByRole);
-router.route('/').post(createUser);
-router.route('/:id').put(updateUser);
-router.route('/:id').delete(protectRoute ,deleteUser);
+router.route('/').get(protectRoute, getUsers);
+router.route('/:id').get(protectRoute, getUserByID);
+router.route('/userFirstName/:firstName').get(protectRoute, getUsersByFirstName);
+router.route('/userLastName/:lastName').get(protectRoute, getUsersByLastName);
+router.route('/userRole/:userRole').get(protectRoute, getUsersByRole);
+router.route('/').post(protectRoute, createUser);
+router.route('/:id').put(protectRoute, updateUser);
+router.route('/:id').delete(protectRoute, deleteUser);
 
 router.route('/login').post(loginUser);
 

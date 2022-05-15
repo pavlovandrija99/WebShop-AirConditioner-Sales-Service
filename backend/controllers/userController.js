@@ -128,10 +128,10 @@ const deleteUser = asyncHandler(async(req, res) => {
     res.status(204).json({message: 'User deleted successfully!'});
 });
 
-
+// Logins user, checks users credentials, returns JWT to the user.
 const loginUser = asyncHandler(async(req, res) => {
 
-    let authJSON = await UserHelper.authenticateAndAuthorizeUser(req.body);
+    let authJSON = await UserHelper.authenticateUser(req.body);
 
     if(authJSON) {
         res.json(authJSON);

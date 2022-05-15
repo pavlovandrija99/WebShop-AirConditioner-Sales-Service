@@ -33,6 +33,11 @@ const orderSchema = mongoose.Schema({
     }
 }, { timestamps: true });
 
+orderSchema.pre('remove', async function(next) {
+    await this.model('paymentModel').deleteOne({_id: this.payment});
+    next();
+});
+
 const orderModel = mongoose.model('orderModel', orderSchema, "Order");
 
 export default orderModel;

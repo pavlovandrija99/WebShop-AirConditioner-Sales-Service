@@ -41,8 +41,7 @@ const updateAirConditionerTypeFromDB = async(airConditionerTypeUpdate) => {
 }
 
 const deleteAirConditionerTypeFromDB = async(airConditionerTypeToDelete) => {
-    const deletedAiConditionerType = await airCondidtionerTypeModel.deleteOne({_id: airConditionerTypeToDelete._id});
-    return deletedAiConditionerType;
+    return await airConditionerTypeToDelete.remove();
 }
 
 export { getAirConditionerTypesFromDB, getAirConditionerTypeByIDFromDB,

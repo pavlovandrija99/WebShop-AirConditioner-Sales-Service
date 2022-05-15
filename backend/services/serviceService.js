@@ -26,8 +26,7 @@ const updateServiceFromDB = async(serviceToUpdate) => {
 }
 
 const deleteServiceFromDB = async(serviceToDelete) => {
-    let deletedService = await serviceModel.deleteOne({_id: serviceToDelete._id});
-    return deletedService;
+    return await serviceToDelete.remove();
 }
 
 export { getServicesFromDB, getServiceByIDFromDB, addService, updateServiceFromDB,

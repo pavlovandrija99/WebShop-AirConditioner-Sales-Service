@@ -74,7 +74,6 @@ const updateUserFromDB = async(userToUpdate) => {
                                          userAddress: userToUpdate.userAddress,
                                          userContactNumber: userToUpdate.userContactNumber,
                                          userUsername: userToUpdate.userUsername,
-                                         password: userToUpdate.password,
                                          salt: userToUpdate.salt,
                                          hash: userToUpdate.hash },
                                          { new:true });
@@ -82,8 +81,7 @@ const updateUserFromDB = async(userToUpdate) => {
 };
 
 const deleteUserFromDB = async(userToDelete) => {
-    const deletedUser = await userModel.deleteOne({_id: userToDelete._id});
-    return deletedUser;
+    return await userToDelete.remove();
 };
 
 export { getUsersFromDB, getUserByIDFromDB, getUsersByFirstNameFromDB,

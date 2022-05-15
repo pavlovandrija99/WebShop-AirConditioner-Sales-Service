@@ -20,6 +20,11 @@ const serviceSchema = mongoose.Schema({
     }]
 }, { timestamps: true });
 
+serviceSchema.pre('remove', async function(next) {
+    await this.model('orderItemModel').deleteMany({service: this._id});
+    next();
+});
+
 const serviceModel = mongoose.model('serviceModel', serviceSchema, "Service");
 
 export default serviceModel;

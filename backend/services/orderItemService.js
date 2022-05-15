@@ -27,8 +27,7 @@ const updateOrderItemFromDB = async(orderItemToUpdate) => {
 }
 
 const deleteOrderItemFromDB = async(orderItemToDelete) => {
-    let deletedOrderItem = await orderItemModel.deleteOne({_id: orderItemToDelete._id});
-    return deletedOrderItem;
+    return await orderItemToDelete.remove();
 }
 
 export { getOrderItemsFromDB, getOrderItemByIDFromDB, addOrderItem,

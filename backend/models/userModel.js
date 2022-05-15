@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
-import dotenv from 'dotenv'
-import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import serviceModel from './serviceModel.js';
 
 dotenv.config();
 
@@ -35,9 +36,6 @@ const userSchema = mongoose.Schema({
         lowercase: true,
         match: [/^[a-zA-Z0-9]+$/, 'is invalid']
     },
-    password: {
-        type: String
-    },
     salt: {
         type: String
     },
@@ -65,7 +63,6 @@ userSchema.methods.generateJWT = function() {
     return jwt.sign({
         id: this._id,
         userName: this.userUsername
-        //exp: parseInt(exp.getTime() / 1000)
     }, process.env.JWT_SECRET_STRING, {
         expiresIn: '30d'
     });
@@ -79,6 +76,21 @@ userSchema.methods.forAuthJSON = function() {
         token: this.generateJWT()
     }
 };
+
+userSchema.pre('remove', async function(next) {
+    const services = await serviceModel.find({});
+
+    for(const serviceIndex in services) {
+        for(const serviceUserIndex in services[serviceIndex].users) {
+            if(services[serviceIndex].users[serviceUserIndex].userID.valueOf() === this._id.valueOf()) {
+                let serviceToDelete = await serviceModel.findById(services[serviceIndex]._id.valueOf());
+                await serviceToDelete.remove();
+            }
+        }
+    }
+    await this.model('orderModel').deleteMany({user: this._id});
+    next();
+});
 
 const userModel = mongoose.model('userModel', userSchema, "User");
 

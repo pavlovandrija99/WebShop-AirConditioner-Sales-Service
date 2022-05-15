@@ -4,12 +4,14 @@ import { getOrderItems, getOrderItemByID, createOrderItem, updateOrderItem,
          deleteOrderItem }
         from "../controllers/orderItemController.js";
 
+import { protectRoute } from "../middleware/authMiddleware.js";
+
 const router = express.Router();
 
-router.route('/').get(getOrderItems);
-router.route('/:id').get(getOrderItemByID);
-router.route('/').post(createOrderItem);
-router.route('/:id').put(updateOrderItem);
-router.route('/:id').delete(deleteOrderItem);
+router.route('/').get(protectRoute, getOrderItems);
+router.route('/:id').get(protectRoute, getOrderItemByID);
+router.route('/').post(protectRoute, createOrderItem);
+router.route('/:id').put(protectRoute, updateOrderItem);
+router.route('/:id').delete(protectRoute, deleteOrderItem);
 
 export default router;

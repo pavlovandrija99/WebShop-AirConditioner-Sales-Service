@@ -41,8 +41,7 @@ const updateRoleFromDB = async(updatedRoleObject) => {
 };
 
 const deleteRoleFromDB = async(roleToDelete) => {
-    const deletedRole = await roleModel.deleteOne({_id: roleToDelete._id});
-    return deletedRole;
+    return await roleToDelete.remove();
 };
 
 const findUserRoleIDWithGivenRole = async(role) => {

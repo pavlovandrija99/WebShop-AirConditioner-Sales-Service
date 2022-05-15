@@ -7,6 +7,11 @@ const airConditionerTypeSchema = mongoose.Schema({
     }
 }, {timestamps:true});
 
+airConditionerTypeSchema.pre('remove', async function(next) {
+    await this.model('airConditionerModel').deleteMany({airConditionerType: this._id});
+    next();
+})
+
 const airCondidtionerTypeModel = mongoose.model('airConditionerTypeModel', airConditionerTypeSchema, "AirConditionerType");
 
 export default airCondidtionerTypeModel;

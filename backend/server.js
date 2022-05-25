@@ -12,6 +12,7 @@ import serviceRoutes from './routes/serviceRoutes.js'
 import orderItemRoutes from './routes/orderItemRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import { notFound ,errorHandler } from './middleware/errorMiddleware.js'
+import products from './data/products.js'
 
 dotenv.config();
 
@@ -32,6 +33,15 @@ app.use('/api/serviceTypes', serviceTypeRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/orderItems', orderItemRoutes);
 app.use('/api/orders', orderRoutes);
+
+app.get('/api/products', (req, res) => {
+    res.json(products)
+})
+
+app.get('/api/products/:id', (req, res) => {
+    const product = products.find(p => p._id === req.params.id);
+    res.json(product);
+})
 
 app.get('/', (req, res) => {
     res.send('Backend is running...');

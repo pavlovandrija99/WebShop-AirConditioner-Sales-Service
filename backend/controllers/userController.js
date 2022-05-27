@@ -130,7 +130,6 @@ const deleteUser = asyncHandler(async(req, res) => {
 
 // Logins user, checks users credentials, returns JWT to the user.
 const loginUser = asyncHandler(async(req, res) => {
-
     let authJSON = await UserHelper.authenticateUser(req.body);
 
     if(authJSON) {

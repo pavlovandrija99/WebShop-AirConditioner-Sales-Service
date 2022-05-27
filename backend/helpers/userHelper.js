@@ -7,12 +7,12 @@ export default class UserHelper {
 
         var createdUser = new userModel({
             role: mongoose.Types.ObjectId(requestBody.role),
-            userFirstName: requestBody.userFirstName,
-            userLastName: requestBody.userLastName,
-            userEmail: requestBody.userEmail,
+            userFirstName: requestBody.firstName,
+            userLastName: requestBody.lastName,
+            userEmail: requestBody.email,
             userAddress: requestBody.userAddress,
             userContactNumber: requestBody.userContactNumber,
-            userUsername: requestBody.userUsername
+            userUsername: requestBody.userName
         });
 
         var newPassword = 'true';
@@ -41,7 +41,7 @@ export default class UserHelper {
 
     static async authenticateUser(requestBody) {
 
-        let user = await userModel.findOne({ userEmail: requestBody.userEmail });
+        let user = await userModel.findOne({ userEmail: requestBody.email });
 
         if(user && (user.validatePassword(requestBody.password))) {
             return user.forAuthJSON();

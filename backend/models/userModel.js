@@ -71,7 +71,7 @@ userSchema.methods.generateJWT = function() {
 userSchema.methods.forAuthJSON = function() {
 
     return {
-        userName: this.userUsername,
+        userUsername: this.userUsername,
         userEmail: this.userEmail,
         token: this.generateJWT()
     }

@@ -13,7 +13,7 @@ router.route('/:id').get(protectRoute, getUserByID);
 router.route('/userFirstName/:firstName').get(protectRoute, getUsersByFirstName);
 router.route('/userLastName/:lastName').get(protectRoute, getUsersByLastName);
 router.route('/userRole/:userRole').get(protectRoute, getUsersByRole);
-router.route('/').post(protectRoute, createUser);
+router.route('/').post(createUser);
 router.route('/:id').put(protectRoute, updateUser);
 router.route('/:id').delete(protectRoute, deleteUser);
 

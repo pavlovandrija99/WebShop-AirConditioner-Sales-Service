@@ -6,13 +6,13 @@ export default class UserHelper {
     static createUserObjectHelper(requestBody) {
 
         var createdUser = new userModel({
-            role: mongoose.Types.ObjectId(requestBody.role),
             userFirstName: requestBody.firstName,
             userLastName: requestBody.lastName,
             userEmail: requestBody.email,
             userAddress: requestBody.userAddress,
             userContactNumber: requestBody.userContactNumber,
-            userUsername: requestBody.userName
+            userUsername: requestBody.userName,
+            isAdmin: requestBody.isAdmin
         });
 
         var newPassword = 'true';
@@ -26,13 +26,13 @@ export default class UserHelper {
 
         var updatedUser = new userModel({
             _id: userToUpdate._id,
-            role: requestBody.role,
-            userFirstName: requestBody.userFirstName,
-            userLastName: requestBody.userLastName,
-            userEmail: requestBody.userEmail,
+            role: userToUpdate.role,
+            userFirstName: requestBody.firstName,
+            userLastName: requestBody.lastName,
+            userEmail: requestBody.email,
             userAddress: requestBody.userAddress,
             userContactNumber: requestBody.userContactNumber,
-            userUsername: requestBody.userUsername,
+            userUsername: requestBody.userName,
         });
 
         updatedUser.setPassword(requestBody.password, newPassword);

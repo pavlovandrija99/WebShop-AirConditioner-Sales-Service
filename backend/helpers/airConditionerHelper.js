@@ -16,7 +16,10 @@ export default class AirConditionerHelper {
             energyClass: requestBody.energyClass,
             airConditionerDescription: requestBody.airConditionerDescription,
             airConditionerPrice: requestBody.airConditionerPrice,
-            stock: requestBody.stock
+            stock: requestBody.stock,
+            image: requestBody.image,
+            numReviews: requestBody.numReviews,
+            rating: requestBody.rating
         });
     };
 
@@ -34,7 +37,10 @@ export default class AirConditionerHelper {
             energyClass: requestBody.energyClass,
             airConditionerDescription: requestBody.airConditionerDescription,
             airConditionerPrice: requestBody.airConditionerPrice,
-            stock: requestBody.stock
+            stock: requestBody.stock,
+            image: requestBody.image,
+            numReviews: requestBody.numReviews,
+            rating: requestBody.rating
         });
     };
 }

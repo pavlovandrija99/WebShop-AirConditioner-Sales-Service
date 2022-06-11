@@ -24,7 +24,11 @@ const LoginScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate(redirect);
+      if(redirect === '/') {
+        navigate(redirect);
+      } else {
+        navigate('/shipping');
+      }
     }
   }, [userInfo, redirect, navigate]);
 
@@ -59,7 +63,7 @@ const LoginScreen = () => {
             onChange={(event) => setPassword(event.target.value)}
           ></Form.Control>
         </Form.Group>
-        <div style={{padding: '10px'}}>
+        <div style={{padding: '20px'}} className="text-center">
           <Button type="submit" variant="primary">
             Sign In
           </Button>

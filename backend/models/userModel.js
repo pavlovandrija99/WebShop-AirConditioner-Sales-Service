@@ -12,6 +12,11 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'roleModel'
     },
+    isAdmin: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
     userFirstName: {
         type: String,
     },
@@ -73,6 +78,7 @@ userSchema.methods.forAuthJSON = function() {
     return {
         userUsername: this.userUsername,
         userEmail: this.userEmail,
+        isAdmin: this.isAdmin,
         token: this.generateJWT()
     }
 };

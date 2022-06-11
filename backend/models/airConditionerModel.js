@@ -49,6 +49,15 @@ const airConditionerSchema = mongoose.Schema({
     stock: {
         type: Number,
         required: true
+    },
+    numReviews: {
+        type: Number
+    },
+    rating: {
+        type: Number
+    },
+    image: {
+        type: String
     }
 
 }, { timestamps: true });

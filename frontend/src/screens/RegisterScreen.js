@@ -110,7 +110,7 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <div style={{ padding: "10px" }}>
+        <div style={{ padding: "20px" }} className="text-center">
           <Button type="submit" variant="primary">
             Register
           </Button>

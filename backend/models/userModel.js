@@ -67,7 +67,6 @@ userSchema.methods.generateJWT = function() {
 
     return jwt.sign({
         id: this._id,
-        userName: this.userUsername
     }, process.env.JWT_SECRET_STRING, {
         expiresIn: '30d'
     });
@@ -76,6 +75,7 @@ userSchema.methods.generateJWT = function() {
 userSchema.methods.forAuthJSON = function() {
 
     return {
+        id: this._id,
         userUsername: this.userUsername,
         userEmail: this.userEmail,
         isAdmin: this.isAdmin,

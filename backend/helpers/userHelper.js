@@ -1,5 +1,4 @@
 import userModel from "../models/userModel.js";
-import mongoose from "mongoose";
 
 export default class UserHelper {
 
@@ -22,20 +21,18 @@ export default class UserHelper {
 
     static updateUserHelper(userToUpdate, requestBody) {
 
-        var newPassword = userToUpdate.validatePassword(requestBody.password) ? "false": "true"
-
         var updatedUser = new userModel({
             _id: userToUpdate._id,
             role: userToUpdate.role,
             userFirstName: requestBody.firstName,
             userLastName: requestBody.lastName,
             userEmail: requestBody.email,
-            userAddress: requestBody.userAddress,
-            userContactNumber: requestBody.userContactNumber,
+            userAddress: userToUpdate.userAddress,
+            userContactNumber: userToUpdate.userContactNumber,
             userUsername: requestBody.userName,
+            isAdmin: requestBody.isAdmin
         });
 
-        updatedUser.setPassword(requestBody.password, newPassword);
         return updatedUser;
     };
 

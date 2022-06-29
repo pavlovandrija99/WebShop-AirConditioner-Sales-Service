@@ -16,7 +16,7 @@ const PaymentScreen = () => {
     navigate("/shipping");
   }
 
-  const [paymentMethod, setPaymentMethod] = useState("Stripe");
+  const [paymentMethod, setPaymentMethod] = useState("PayPal");
 
   const dispatch = useDispatch();
 
@@ -44,6 +44,7 @@ const PaymentScreen = () => {
               id="PayPal"
               name="paymentMethod"
               value="Paypal"
+              checked
               onChange={(event) => setPaymentMethod(event.target.value)}
             ></Form.Check>
             <Form.Check style={{padding: '5px'}}
@@ -52,7 +53,6 @@ const PaymentScreen = () => {
               id="Stripe"
               name="paymentMethod"
               value="Stripe"
-              checked
               onChange={(event) => setPaymentMethod(event.target.value)}
             ></Form.Check>
           </Col>

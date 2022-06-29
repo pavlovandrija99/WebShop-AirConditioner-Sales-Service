@@ -17,6 +17,7 @@ import {
 } from "react-bootstrap";
 import Message from "../components/Message.js";
 import { addToCart, removeFromCart } from "../actions/cartActions.js";
+import { ORDER_CREATE_RESET } from "../constants/orderConstants.js";
 
 const CartScreen = () => {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ const CartScreen = () => {
   useEffect(() => {
     if (productID) {
       dispatch(addToCart(productID, quantity));
+      dispatch({type: ORDER_CREATE_RESET });
     }
   }, [dispatch, productID, quantity]);
 

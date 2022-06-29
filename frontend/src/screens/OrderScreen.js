@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message.js";
@@ -14,14 +14,23 @@ import { PayPalButton } from "react-paypal-button-v2";
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
+  ORDER_CREATE_RESET,
+  ORDER_DETAILS_RESET,
 } from "../constants/orderConstants.js";
 
+import StripePayButton from "../components/StripePayButton.js";
+
 const OrderScreen = () => {
+  const navigate = useNavigate();
+
   const { id } = useParams();
 
   const [sdkReady, setSdkReady] = useState(false);
 
   const dispatch = useDispatch();
+
+  const cart = useSelector((state) => state.cart);
+  const { paymentMethod } = cart;
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
@@ -36,6 +45,10 @@ const OrderScreen = () => {
   const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   useEffect(() => {
+    if (!userInfo) {
+      navigate("/login");
+    }
+
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get("/api/config/paypal");
       const script = document.createElement("script");
@@ -48,7 +61,7 @@ const OrderScreen = () => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay || successDeliver) {
+    if (!order || successPay || successDeliver || order._id !== id) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(id));
@@ -59,16 +72,20 @@ const OrderScreen = () => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, id, order, successPay, successDeliver]);
+  }, [dispatch, id, order, successPay, successDeliver, navigate, userInfo]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(id, paymentResult));
     dispatch(getOrderDetails(id));
+    dispatch({ type: ORDER_CREATE_RESET });
+    dispatch({ type: ORDER_DETAILS_RESET });
+    navigate("/profile");
   };
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order));
     dispatch(getOrderDetails(id));
+    navigate("/admin/orderlist");
   };
 
   return loading ? (
@@ -173,7 +190,13 @@ const OrderScreen = () => {
                 </Row>
               </ListGroup.Item>
 
-              {!order.isPaid && (
+              {paymentMethod === "Stripe" && (
+                <ListGroup.Item className="d-grid gap-2">
+                  <StripePayButton order={order} />
+                </ListGroup.Item>
+              )}
+
+              {paymentMethod === "PayPal" && !order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
@@ -189,21 +212,24 @@ const OrderScreen = () => {
                       onSuccess={successPaymentHandler}
                     />
                   )}
-
-                  {loadingDeliver && <Loader />}
-                  {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
-                    <ListGroup.Item>
-                      <Button
-                        type="button"
-                        className="btn btn-block"
-                        onClick={deliverHandler}
-                      >
-                        Mark As Delivered
-                      </Button>
-                    </ListGroup.Item>
-                  )}
                 </ListGroup.Item>
               )}
+
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item className="d-grid gap-2">
+                    <Button
+                      type="button"
+                      className="btn btn-block"
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>

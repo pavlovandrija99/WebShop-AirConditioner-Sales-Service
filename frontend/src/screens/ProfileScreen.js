@@ -7,6 +7,8 @@ import Message from "../components/Message.js";
 import Loader from "../components/Loader.js";
 import { getUserDetails, updateUserProfile } from "../actions/userActions.js";
 import { listMyOrders } from "../actions/orderActions.js";
+import { ORDER_CREATE_RESET } from "../constants/orderConstants.js";
+import { USER_UPDATE_RESET } from "../constants/userConstants.js";
 
 const ProfileScreen = () => {
   const navigate = useNavigate();
@@ -37,17 +39,20 @@ const ProfileScreen = () => {
     if (!userInfo) {
       navigate("/login");
     } else {
-      if (!user.userEmail) {
-        dispatch(getUserDetails(userInfo.userEmail));
+      if (!user || success) {
+        console.log("HELLO")
+        dispatch({ type: USER_UPDATE_RESET });
+        dispatch(getUserDetails(userInfo.id));
+        dispatch(listMyOrders());
       } else {
         setFirstName(user.userFirstName);
         setLastName(user.userLastName);
         setUserName(user.userUsername);
         setEmail(user.userEmail);
       }
-      dispatch(listMyOrders());
+      dispatch({ type: ORDER_CREATE_RESET });
     }
-  }, [dispatch, userInfo, navigate, user, user.userFirstName]);
+  }, [dispatch, userInfo, navigate, user, success]);
 
   const submitHandler = (e) => {
     // preventDefault() obezbedjuje da se forma ne refresuje prilikom submit-a forme.
@@ -65,6 +70,8 @@ const ProfileScreen = () => {
           password,
         })
       );
+
+      dispatch(getUserDetails(userInfo.id));
     }
   };
 
@@ -184,7 +191,9 @@ const ProfileScreen = () => {
                   </td>
                   <td>
                     <LinkContainer to={`/order/${order._id}`}>
-                      <Button className="btn-sm" variant="light">Details</Button>
+                      <Button className="btn-sm" variant="light">
+                        Details
+                      </Button>
                     </LinkContainer>
                   </td>
                 </tr>

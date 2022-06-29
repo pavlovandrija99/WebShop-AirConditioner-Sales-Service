@@ -11,14 +11,26 @@ import serviceTypeRoutes from "./routes/serviceTypeRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
 import orderItemRoutes from "./routes/orderItemRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import stripeRoutes from "./routes/stripeRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
-import { getAllAirConditioners} from "./controllers/airConditionerController.js"
+import { getAllAirConditioners } from "./controllers/airConditionerController.js";
 
 dotenv.config();
 
 connectDatabase();
 
 const app = express();
+
+app.use(
+  "/api/stripe/webhook",
+  express.json({
+    verify: (req, res, buf) => {
+      console.log(`/api/stripe/webhook route is triggered!`);
+      req.rawBody = buf.toString();
+    },
+  })
+);
+
 
 app.use(express.json());
 
@@ -34,6 +46,7 @@ app.use("/api/serviceTypes", serviceTypeRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/orderItems", orderItemRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/stripe", stripeRoutes);
 
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)

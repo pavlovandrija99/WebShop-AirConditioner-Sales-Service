@@ -7,6 +7,7 @@ import Loader from "../components/Loader.js";
 import Paginate from "../components/Paginate.js";
 import { Row, Col } from "react-bootstrap";
 import { listProducts } from "../actions/productActions.js";
+import { ORDER_CREATE_RESET } from "../constants/orderConstants.js";
 
 const HomeScreen = () => {
   let { keyword, pageNumber } = useParams();
@@ -23,6 +24,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber));
+    dispatch({ type: ORDER_CREATE_RESET });
   }, [dispatch, keyword, pageNumber]);
 
   return (
@@ -34,7 +36,7 @@ const HomeScreen = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Row style={{margin: '0 0 20px 0'}}>
+          <Row style={{ margin: "0 0 20px 0" }}>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                 <Product product={product} />

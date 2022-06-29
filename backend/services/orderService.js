@@ -1,7 +1,7 @@
 import orderModel from "../models/orderModel.js";
 
 const getOrdersFromDB = async () => {
-  let orders = await orderModel.find({});
+  let orders = await orderModel.find({}).populate('user', "id, userFirstName userLastName");
   return orders;
 };
 

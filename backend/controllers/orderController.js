@@ -37,7 +37,6 @@ const getOrderByID = asyncHandler(async (req, res) => {
 
 const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await orderModel.find({ user: req.user._id });
-  console.log(`orders: ${JSON.stringify(orders)}`)
   res.json(orders);
 });
 
@@ -101,6 +100,22 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
+const updateOrderToPaidStripe = asyncHandler(async (orderData) => {
+  const order = await orderModel.findById(orderData.orderId);
+
+  if (order) {
+    order.isPaid = true;
+    order.paidAt = Date.now();
+
+    const updatedOrder = await order.save();
+
+    console.log(`UpdatedOrder: ${JSON.stringify(updatedOrder)}`);
+    return;
+  } else {
+    throw new Error("Order not found! Bad request.");
+  }
+});
+
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await orderModel.findById(req.params.id);
 
@@ -144,5 +159,6 @@ export {
   updateOrderToDelivered,
   deleteOrder,
   updateOrderToPaid,
+  updateOrderToPaidStripe,
   getMyOrders,
 };

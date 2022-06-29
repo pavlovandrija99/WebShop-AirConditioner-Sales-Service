@@ -10,7 +10,7 @@ import {
   airConditionerStockDecrease,
 } from "../controllers/airConditionerController.js";
 
-import { protectRoute } from "../middleware/authMiddleware.js";
+import { protectRoute, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -24,6 +24,6 @@ router
   .route("/:id/stock-decrease")
   .put(protectRoute, airConditionerStockDecrease);
 router.route("/:id").put(protectRoute, updateAirConditioner);
-router.route("/:id").delete(protectRoute, deleteAirConditioner);
+router.route("/:id").delete(protectRoute, admin, deleteAirConditioner);
 
 export default router;

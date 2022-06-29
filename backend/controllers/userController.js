@@ -103,7 +103,7 @@ const createUser = asyncHandler(async (req, res) => {
       userAddress: createdUser.userAddress,
       userContactNumber: createdUser.userContactNumber,
       userUsername: createdUser.userUsername,
-      isAdmin: createdUser.isAdmin
+      isAdmin: createdUser.isAdmin,
     });
   } else {
     res.status(500);

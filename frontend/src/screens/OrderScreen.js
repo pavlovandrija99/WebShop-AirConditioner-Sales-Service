@@ -14,8 +14,6 @@ import { PayPalButton } from "react-paypal-button-v2";
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
-  ORDER_CREATE_RESET,
-  ORDER_DETAILS_RESET,
 } from "../constants/orderConstants.js";
 
 import StripePayButton from "../components/StripePayButton.js";
@@ -28,9 +26,6 @@ const OrderScreen = () => {
   const [sdkReady, setSdkReady] = useState(false);
 
   const dispatch = useDispatch();
-
-  const cart = useSelector((state) => state.cart);
-  const { paymentMethod } = cart;
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { order, loading, error } = orderDetails;
@@ -76,16 +71,12 @@ const OrderScreen = () => {
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(id, paymentResult));
-    dispatch(getOrderDetails(id));
-    dispatch({ type: ORDER_CREATE_RESET });
-    dispatch({ type: ORDER_DETAILS_RESET });
     navigate("/profile");
   };
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order));
-    dispatch(getOrderDetails(id));
-    navigate("/admin/orderlist");
+    navigate("/profile");
   };
 
   return loading ? (
@@ -117,7 +108,8 @@ const OrderScreen = () => {
               </p>
               {order.isDelivered ? (
                 <Message variant="success">
-                  Delivered on: {order.deliveredAt}
+                  Delivered on:{" "}
+                  {new Date(order.deliveredAt).toLocaleString("LL")}
                 </Message>
               ) : (
                 <Message variant="danger">Not Delivered</Message>
@@ -131,7 +123,9 @@ const OrderScreen = () => {
                 {order.orderPaymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on: {order.paidAt}</Message>
+                <Message variant="success">
+                  Paid on: {new Date(order.paidAt).toLocaleString("LL")}
+                </Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}
@@ -190,13 +184,13 @@ const OrderScreen = () => {
                 </Row>
               </ListGroup.Item>
 
-              {paymentMethod === "Stripe" && (
+              {order.orderPaymentMethod === "Stripe" && !order.isPaid && (
                 <ListGroup.Item className="d-grid gap-2">
                   <StripePayButton order={order} />
                 </ListGroup.Item>
               )}
 
-              {paymentMethod === "PayPal" && !order.isPaid && (
+              {order.orderPaymentMethod === "PayPal" && !order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (

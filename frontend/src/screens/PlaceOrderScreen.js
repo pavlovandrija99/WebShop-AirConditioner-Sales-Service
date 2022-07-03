@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message.js";
 import CheckoutSteps from "../components/CheckoutSteps.js";
 import { createOrder } from "../actions/orderActions.js";
+import { USER_DETAILS_RESET } from "../constants/userConstants.js";
+import { ORDER_CREATE_RESET } from "../constants/orderConstants.js";
 
 const PlaceOrderScreen = () => {
   const navigate = useNavigate();
@@ -28,9 +30,11 @@ const PlaceOrderScreen = () => {
 
   useEffect(() => {
     if (success) {
+      dispatch({ type: USER_DETAILS_RESET })
+      dispatch({ type: ORDER_CREATE_RESET });
       navigate(`/order/${order._id}`);
     }
-  }, [navigate, success, order]);
+  }, [navigate, success, order, dispatch]);
 
   const placeOrderHandler = () => {
     dispatch(

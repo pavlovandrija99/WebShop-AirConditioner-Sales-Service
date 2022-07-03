@@ -7,8 +7,8 @@ import Message from "../components/Message.js";
 import Loader from "../components/Loader.js";
 import { getUserDetails, updateUserProfile } from "../actions/userActions.js";
 import { listMyOrders } from "../actions/orderActions.js";
-import { ORDER_CREATE_RESET } from "../constants/orderConstants.js";
-import { USER_UPDATE_RESET } from "../constants/userConstants.js";
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants.js";
+import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants.js";
 
 const ProfileScreen = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const ProfileScreen = () => {
   const { userInfo } = userLogin;
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  const { success } = userUpdateProfile;
+  const { success, userInfoUpdated } = userUpdateProfile;
 
   const orderListMy = useSelector((state) => state.orderListMy);
   const { loading: loadingOrders, orders, error: errorOrders } = orderListMy;
@@ -39,9 +39,10 @@ const ProfileScreen = () => {
     if (!userInfo) {
       navigate("/login");
     } else {
-      if (!user || success) {
-        console.log("HELLO")
-        dispatch({ type: USER_UPDATE_RESET });
+      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+
+      if (!user.userEmail || success) {
+        dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails(userInfo.id));
         dispatch(listMyOrders());
       } else {
@@ -49,10 +50,10 @@ const ProfileScreen = () => {
         setLastName(user.userLastName);
         setUserName(user.userUsername);
         setEmail(user.userEmail);
+        dispatch(listMyOrders());
       }
-      dispatch({ type: ORDER_CREATE_RESET });
     }
-  }, [dispatch, userInfo, navigate, user, success]);
+  }, [dispatch, userInfo, navigate, user, success, userInfoUpdated]);
 
   const submitHandler = (e) => {
     // preventDefault() obezbedjuje da se forma ne refresuje prilikom submit-a forme.
@@ -70,8 +71,6 @@ const ProfileScreen = () => {
           password,
         })
       );
-
-      dispatch(getUserDetails(userInfo.id));
     }
   };
 

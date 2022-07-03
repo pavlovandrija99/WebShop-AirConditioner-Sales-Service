@@ -8,6 +8,7 @@ import Paginate from "../components/Paginate.js";
 import { Row, Col } from "react-bootstrap";
 import { listProducts } from "../actions/productActions.js";
 import { ORDER_CREATE_RESET } from "../constants/orderConstants.js";
+import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants.js";
 
 const HomeScreen = () => {
   let { keyword, pageNumber } = useParams();
@@ -19,12 +20,12 @@ const HomeScreen = () => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
-
   const { loading, error, products, page, pages } = productList;
 
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber));
     dispatch({ type: ORDER_CREATE_RESET });
+    dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
   }, [dispatch, keyword, pageNumber]);
 
   return (
@@ -44,6 +45,7 @@ const HomeScreen = () => {
             ))}
           </Row>
           <Paginate
+            isProductAdminPage={false}
             pages={pages}
             page={page}
             keyword={keyword ? keyword : ""}

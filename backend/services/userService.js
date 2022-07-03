@@ -8,7 +8,7 @@ const getUsersFromDB = async () => {
 };
 
 const getUserByIDFromDB = async (id) => {
-  const user = await userModel.findById(id).select("-salt -hash");
+  const user = await userModel.findById(id);
   return user;
 };
 
@@ -84,8 +84,6 @@ const updateUserFromDB = async (userToUpdate) => {
       userContactNumber: userToUpdate.userContactNumber,
       userUsername: userToUpdate.userUsername,
       isAdmin: userToUpdate.isAdmin,
-      salt: userToUpdate.salt,
-      hash: userToUpdate.hash,
     },
     { new: true }
   );

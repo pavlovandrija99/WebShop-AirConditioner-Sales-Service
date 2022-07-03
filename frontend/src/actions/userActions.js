@@ -26,8 +26,13 @@ import {
   USER_UPDATE_FAIL,
 } from "../constants/userConstants.js";
 
-import { ORDER_LIST_MY_RESET } from "../constants/orderConstants.js";
+import {
+  ORDER_DETAILS_RESET,
+  ORDER_LIST_MY_RESET,
+  ORDER_LIST_RESET,
+} from "../constants/orderConstants.js";
 import { CART_STATE_RESET } from "../constants/cartConstants.js";
+import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants.js";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -71,6 +76,9 @@ export const logout = () => (dispatch) => {
   dispatch({ type: ORDER_LIST_MY_RESET });
   dispatch({ type: USER_LIST_RESET });
   dispatch({ type: CART_STATE_RESET });
+  dispatch({ type: ORDER_DETAILS_RESET });
+  dispatch({ type: ORDER_LIST_RESET });
+  dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
 };
 
 export const register =
@@ -174,7 +182,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
-    localStorage.setItem('userInfo', JSON.stringify(data))
+    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,

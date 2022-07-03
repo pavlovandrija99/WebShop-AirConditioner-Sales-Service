@@ -16,6 +16,7 @@ import OrderScreen from "./screens/OrderScreen.js";
 import UserListScreen from "./screens/UserListScreen.js";
 import UserEditScreen from "./screens/UserEditScreen.js";
 import ProductListScreen from "./screens/ProductListScreen.js";
+import ProductEditScreen from "./screens/ProductEditScreen.js";
 import OrderListScreen from "./screens/OrderListScreen.js";
 
 const App = () => {
@@ -26,7 +27,13 @@ const App = () => {
         <Container>
           <Routes>
             <Route path="/" element={<HomeScreen />} exact />
+            <Route path="/page/:pageNumber/admin" element={<ProductListScreen />} exact />
             <Route path="/page/:pageNumber" element={<HomeScreen />} exact />
+            <Route
+              path="/search/:keyword/page/:pageNumber/admin"
+              element={<ProductListScreen />}
+              exact
+            />
             <Route
               path="/search/:keyword/page/:pageNumber"
               element={<HomeScreen />}
@@ -45,6 +52,7 @@ const App = () => {
             <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
             <Route path="/admin/userlist" element={<UserListScreen />} />
             <Route path="/admin/productlist" element={<ProductListScreen />} />
+            <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
             <Route path="/admin/orderlist" element={<OrderListScreen />} />
           </Routes>
         </Container>

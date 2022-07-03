@@ -17,7 +17,7 @@ import { protectRoute, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").get(protectRoute, admin, getUsers);
+router.route("/").get(protectRoute, getUsers);
 router.route("/:id").get(protectRoute, getUserByID);
 router
   .route("/userFirstName/:firstName")

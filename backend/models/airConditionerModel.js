@@ -1,67 +1,76 @@
 import mongoose from "mongoose";
 
-const airConditionerSchema = mongoose.Schema({
+const reviewSchema = mongoose.Schema(
+  {
+    name: { type: String },
+    rating: { type: Number },
+    comment: { type: String },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "userModel" },
+  },
+  { timestamps: true }
+);
+
+const airConditionerSchema = mongoose.Schema(
+  {
     airConditionerType: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'airConditionerTypeModel'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "airConditionerTypeModel",
     },
     airConditionerModel: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     airConditionerPrice: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     powerConsumption: {
-        type: String,
-        required: true
+      type: String,
     },
     operatingTemperatureRange: {
-        type: String,
-        required: true
+      type: String,
     },
     indoorUnitDimension: {
-        type: String,
-        required: true
+      type: String,
     },
     outdoorUnitDimension: {
-        type: String,
-        required: true
+      type: String,
     },
     coolingCapacity: {
-        type: String,
-        required: true
+      type: String,
     },
     heatingCapacity: {
-        type: String,
-        required: true
+      type: String,
     },
     energyClass: {
-        type: String,
-        required: true
+      type: String,
     },
     airConditionerDescription: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     stock: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
+    reviews: [reviewSchema],
     numReviews: {
-        type: Number
+      type: Number,
     },
     rating: {
-        type: Number
+      type: Number,
     },
     image: {
-        type: String
-    }
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
 
-}, { timestamps: true });
-
-const airConditionerModel = mongoose.model('airConditionerModel', airConditionerSchema, "Air Condition");
+const airConditionerModel = mongoose.model(
+  "airConditionerModel",
+  airConditionerSchema,
+  "Air Condition"
+);
 
 export default airConditionerModel;

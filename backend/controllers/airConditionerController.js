@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import AirConditionerHelper from "../helpers/airConditionerHelper.js";
+import AirConditionerModel from "../models/airConditionerModel.js";
 
 import {
   getAirConditionersFromDB,
@@ -28,7 +29,7 @@ const getAirConditioners = asyncHandler(async (req, res) => {
   const page = Number(req.query.pageNumber) || 1;
   const keyword = req.query.keyword
     ? {
-        airConditionerModel: {
+        AirConditionerModel: {
           $regex: req.query.keyword,
           $options: "i",
         },
@@ -157,6 +158,88 @@ const deleteAirConditioner = asyncHandler(async (req, res) => {
   res.status(204).json({ message: "Air conditioner deleted successfully!" });
 });
 
+const createAirConditionerReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+
+  const airConditioner = await getAirConditionerByIDFromDB(req.params.id);
+
+  if (airConditioner) {
+    const alreadyReviewed = airConditioner.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    );
+
+    //console.log(`req.user: ${JSON.stringify(req.user)}`);
+
+    if (alreadyReviewed) {
+      res.status(400);
+      throw new Error("Air conditioner is already reviewed!");
+    }
+
+    const review = {
+      name: req.user.userUsername,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    airConditioner.reviews.push(review);
+
+    airConditioner.numReviews = airConditioner.reviews.length;
+
+    airConditioner.rating =
+      airConditioner.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      airConditioner.reviews.length;
+
+    await airConditioner.save();
+    res.status(201).json({ message: "Review added!" });
+  }
+});
+
+const createNewAirConditioner = asyncHandler(async (req, res) => {
+  const airConditioner = new AirConditionerModel({
+    airConditionerModel: "Sample model",
+    airConditionerPrice: 0,
+    airConditionerDescription: "Sample description",
+    energyClass: "Sample class",
+    image: "/images/sample.jpg",
+    stock: 0,
+    numReviews: 0,
+  });
+
+  const createdAirConditioner = await airConditioner.save();
+  res.status(201).json(createdAirConditioner);
+});
+
+const updateNewAirConditioner = asyncHandler(async (req, res) => {
+  const {
+    airConditionerModel,
+    airConditionerPrice,
+    airConditionerDescription,
+    energyClass,
+    image,
+    stock,
+    numReviews,
+  } = req.body;
+
+  const airConditioner = await AirConditionerModel.findById(req.params.id);
+
+  if (airConditioner) {
+    (airConditioner.airConditionerModel = airConditionerModel),
+      (airConditioner.airConditionerPrice = airConditionerPrice),
+      (airConditioner.airConditionerDescription = airConditionerDescription),
+      (airConditioner.energyClass = energyClass),
+      (airConditioner.image = image),
+      (airConditioner.stock = stock),
+      (airConditioner.numReviews = numReviews);
+
+    const updatedAirConditioner = await airConditioner.save();
+    res.status(201).json(updatedAirConditioner);
+  } else {
+    res.status(404);
+    throw new Error("Air conditioner not found!");
+  }
+});
+
 export {
   getAllAirConditioners,
   getAirConditioners,
@@ -166,6 +249,9 @@ export {
   updateAirConditioner,
   deleteAirConditioner,
   airConditionerStockDecrease,
+  createAirConditionerReview,
+  createNewAirConditioner,
+  updateNewAirConditioner
 };
 
 /*

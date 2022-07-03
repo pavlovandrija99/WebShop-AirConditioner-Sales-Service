@@ -19,9 +19,11 @@ import {
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_FAIL,
+  ORDER_DETAILS_RESET,
+  ORDER_LIST_MY_RESET,
 } from "../constants/orderConstants.js";
 
-import { CART_STATE_RESET } from "../constants/cartConstants.js";
+import { clearCart } from "../actions/cartActions.js";
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
@@ -55,6 +57,8 @@ export const createOrder = (order) => async (dispatch, getState) => {
       type: ORDER_CREATE_SUCCESS,
       payload: data,
     });
+
+    dispatch(clearCart());
   } catch (error) {
     dispatch({
       type: ORDER_CREATE_FAIL,
@@ -83,6 +87,8 @@ export const getOrderDetails = (orderID) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(`/api/orders/${orderID}`, config);
+
+    //console.log(`data iz getorderdetails: ${JSON.stringify(data)}`)
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -128,7 +134,7 @@ export const payOrder =
         payload: data,
       });
 
-      dispatch({ type: CART_STATE_RESET });
+      dispatch({ type: ORDER_DETAILS_RESET });
     } catch (error) {
       dispatch({
         type: ORDER_PAY_FAIL,
@@ -162,10 +168,15 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
       config
     );
 
+    console.log(`delivered order iz baze: ${JSON.stringify(data)}`);
+
     dispatch({
       type: ORDER_DELIVER_SUCCESS,
       payload: data,
     });
+
+    dispatch({ type: ORDER_LIST_MY_RESET });
+    dispatch({ type: ORDER_DETAILS_RESET });
   } catch (error) {
     dispatch({
       type: ORDER_DELIVER_FAIL,
@@ -199,7 +210,6 @@ export const listMyOrders = () => async (dispatch, getState) => {
       type: ORDER_LIST_MY_SUCCESS,
       payload: data,
     });
-
   } catch (error) {
     dispatch({
       type: ORDER_LIST_MY_FAIL,
